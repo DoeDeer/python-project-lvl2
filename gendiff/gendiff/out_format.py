@@ -8,6 +8,9 @@ from typing import Optional
 
 from gendiff.gendiff import diff
 
+JSON_FORMAT = 'json'
+PLAIN_FORMAT = 'plain'
+
 
 def prepare_to_show(source: dict, changed: dict) -> dict:
     """Compare to dict and show diffs.
@@ -37,7 +40,7 @@ def prepare_to_show(source: dict, changed: dict) -> dict:
     return to_format_dict
 
 
-def changes_to_string(changes: dict, form: str = json) -> Optional[str]:
+def changes_to_string(changes: dict, form: str = JSON_FORMAT) -> Optional[str]:
     """Return pretty-formed string of given object.
 
     Args:
@@ -48,5 +51,5 @@ def changes_to_string(changes: dict, form: str = json) -> Optional[str]:
         str: formated changes string.
 
     """
-    if form == json:
+    if form == JSON_FORMAT:
         return json.dumps(changes, indent=2, sort_keys=True)
