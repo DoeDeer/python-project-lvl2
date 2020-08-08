@@ -6,6 +6,8 @@
 
 import argparse
 
+from gendiff.gendiff.core import gendiff
+
 
 def main():
     """Execute program."""
@@ -20,17 +22,13 @@ def main():
         type=str,
         action='store',
         choices=['json', 'plain'],
-        default='plain',
+        default='json',
         metavar='FORMAT',
         help='set format of output. Available choices: plain, json',
     )
 
     args = parser.parse_args()
-    print('First file: {0}\nSecond file: {1}\nOutput format: {2}'.format(
-        args.first_file,
-        args.second_file,
-        args.format,
-    ))
+    print(gendiff(args.first_file, args.second_file, args.format))
 
 
 if __name__ == '__main__':
