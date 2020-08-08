@@ -38,6 +38,15 @@ def prepare_to_show(source: dict, changed: dict) -> dict:
 
 
 def changes_to_string(changes: dict, form: str = json) -> Optional[str]:
-    """Return pretty-formed string of given object."""
+    """Return pretty-formed string of given object.
+
+    Args:
+        changes (dict): dict with changes, where keys shows diff state.
+        form (str): output format type. Choices: json, plain.
+
+    Returns:
+        str: formated changes string.
+
+    """
     if form == json:
         return json.dumps(changes, indent=2, sort_keys=True)

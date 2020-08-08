@@ -4,7 +4,7 @@
 """Module with main entities."""
 
 from gendiff.gendiff.files import read_file
-from gendiff.gendiff.out_format import prepare_to_show, changes_to_string
+from gendiff.gendiff.out_format import changes_to_string, prepare_to_show
 
 
 def gendiff(ff_path: str, sf_path: str, form: str = 'json') -> str:
