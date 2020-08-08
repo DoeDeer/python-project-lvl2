@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-"""Module to fund diff between two dicts."""
+"""Module to find diff between two dicts."""
 
 UNCHANGED = 0
 CHANGED = 1
