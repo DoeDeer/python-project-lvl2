@@ -11,3 +11,5 @@ publish:
 	 --username $(shell echo ${PIP_USERNAME}) \
 	 --password $(shell echo ${PIP_PASSWORD}) \
 	  -r test-pypi
+
+.PHONY: install lint publish
