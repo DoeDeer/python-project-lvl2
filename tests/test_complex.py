@@ -34,14 +34,13 @@ def complex_res():
     return """{
     host: hexlet.io,
   - proxy: 123.234.53.22,
-    request:
-        {
-            host: hexlet.io,
-          - proxy: 123.234.53.22,
-          + timeout: 20,
-          - timeout: 50,
-          + verbose: true
-        }
+    request: {
+        host: hexlet.io,
+      - proxy: 123.234.53.22,
+      + timeout: 20,
+      - timeout: 50,
+      + verbose: true
+  },
   + timeout: 20,
   - timeout: 50,
   + verbose: true

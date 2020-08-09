@@ -7,8 +7,9 @@ UNCHANGED = 0
 CHANGED = 1
 ADDED = 2
 REMOVED = 3
+NESTED = 4
 
-KEY_STATES = (UNCHANGED, CHANGED, ADDED, REMOVED)
+KEY_STATES = (UNCHANGED, CHANGED, ADDED, REMOVED, NESTED)
 
 
 def diff(source: dict, changed: dict) -> dict:
@@ -35,7 +36,9 @@ def diff(source: dict, changed: dict) -> dict:
         keys_states[removed] = REMOVED
 
     for same in both_keys - (added_keys | removed_keys):
-        if source[same] == changed[same]:
+        if isinstance(source[same], dict) and isinstance(changed[same], dict):
+            keys_states[same] = NESTED
+        elif source[same] == changed[same]:
             keys_states[same] = UNCHANGED
         else:
             keys_states[same] = CHANGED

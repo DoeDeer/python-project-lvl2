@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "doedeer-gendiff"
-version = "0.1.1"
+version = "0.2.0"
 description = "Show differnces between two files"
 authors = ["Doe Deer <gregorylos97@gmail.com>"]
 packages = [
