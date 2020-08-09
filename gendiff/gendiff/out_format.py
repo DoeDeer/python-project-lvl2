@@ -52,7 +52,7 @@ def prepare_to_show(source: dict, changed: dict) -> dict:
             to_format_dict['- {0}'.format(key)] = source[key]
 
         if state is diff.UNCHANGED:
-            to_format_dict[key] = source[key]
+            to_format_dict['  {0}'.format(key)] = source[key]
 
     return to_format_dict
 
