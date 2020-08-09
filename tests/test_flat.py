@@ -43,8 +43,8 @@ def flat_res():
 @pytest.fixture
 def plain_flat_res():
     return """Property 'proxy' was removed
-Property 'verbose' was added with value: 'true'
 Property 'timeout' was changed. From '50' to '20'
+Property 'verbose' was added with value: 'true'
 """
 
 

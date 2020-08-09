@@ -74,7 +74,70 @@ def format_json(full_diff: dict, level: int = 1) -> str:  # noqa: WPS210
     return ''.join(form_strings)
 
 
+def format_plain(full_diff, high_module: str = ''):
+    """Format full diff between dicts to json string.
+
+    Args:
+        full_diff (dict): dict with changes.
+        high_module (str): higher modules name.
+
+    Returns:
+        str: pretty looked  string.
+
+    """
+    changes_strings = []
+    for key, state_leaf in sorted(full_diff.items(), key=lambda itm: itm[0]):
+        state = state_leaf.get('type')
+
+        if state is None:
+            changes_strings.extend(format_plain(
+                state_leaf,
+                high_module='{0}{1}{2}'.format(
+                    high_module,
+                    '.' if high_module else '',
+                    key,
+                ),
+            ))
+
+        if state is diff.ADDED:
+            format_string = (
+                "Property '{module}{key}' was added with value: '{value}'\n"
+            )
+            changes_strings.append(
+                format_string.format(
+                    module=high_module + '.' if high_module else '',
+                    key=key,
+                    value='complex value' if isinstance(
+                        state_leaf['value'],
+                        dict,
+                    ) else py_to_json(state_leaf['value']),
+                ),
+            )
+
+        if state is diff.REMOVED:
+            changes_strings.append(
+                "Property '{module}{key}' was removed\n".format(
+                    module=high_module + '.' if high_module else '',
+                    key=key,
+                ),
+            )
+
+        if state is diff.CHANGED:
+            format_string = (
+                "Property '{0}{1}' was changed. From '{2}' to '{3}'\n"
+            )
+            changes_strings.append(format_string.format(
+                high_module + '.' if high_module else '',
+                key,
+                py_to_json(state_leaf['old_value']),
+                py_to_json(state_leaf['value']),
+            ))
+    return ''.join(changes_strings)
+
+
 def format_output(full_diff, format_: str = JSON_FORMAT):
     """Format full diff dict to string representation in given format."""  # noqa: DAR
     if format_ == JSON_FORMAT:
         return format_json(full_diff)
+    if format_ == PLAIN_FORMAT:
+        return format_plain(full_diff)
