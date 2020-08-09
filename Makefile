@@ -4,8 +4,15 @@ PIP_PASSWORD?=
 
 install:
 	poetry install
+
 lint:
 	poetry run flake8 gendiff
+
+test:
+	poetry run pytest -q
+
+check: lint test
+
 publish:
 	poetry publish --build \
 	 --username $(shell echo ${PIP_USERNAME}) \
