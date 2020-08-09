@@ -40,6 +40,14 @@ def flat_res():
 }"""
 
 
+@pytest.fixture
+def plain_flat_res():
+    return """Property 'proxy' was removed
+Property 'verbose' was added with value: 'true'
+Property 'timeout' was changed. From '50' to '20'
+"""
+
+
 def test_flat_json(
     before_json_flat: str,
     after_json_flat: str,
@@ -54,5 +62,31 @@ def test_flat_yaml(
     after_yaml_flat: str,
     flat_res: str,
 ):
-    """Test flat json files comparing."""
+    """Test flat yaml files comparing."""
     assert gendiff(before_yaml_flat, after_yaml_flat) == flat_res
+
+
+def test_flat_json_plain(
+    before_json_flat: str,
+    after_json_flat: str,
+    plain_flat_res: str,
+):
+    """Test flat json files comparing in plain format."""
+    assert gendiff(
+        before_json_flat,
+        after_json_flat,
+        form='plain',
+    ) == plain_flat_res
+
+
+def test_flat_yaml_plain(
+    before_yaml_flat: str,
+    after_yaml_flat: str,
+    plain_flat_res: str,
+):
+    """Test flat yaml files comparing in plain format."""
+    assert gendiff(
+        before_yaml_flat,
+        after_yaml_flat,
+        form='plain',
+    ) == plain_flat_res
