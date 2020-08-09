@@ -44,3 +44,38 @@ def diff(source: dict, changed: dict) -> dict:
             keys_states[same] = CHANGED
 
     return keys_states
+
+
+def diff_dicts(source: dict, changed: dict) -> dict:
+    """Return dict with full info representation about changes.
+
+    Args:
+        source (dict): source dict with original values.
+        changed (dict): changed dict with updated values.
+
+    Returns:
+        dict: dict with mapping key: {type: KEY_STATE, value: new_value,
+        old_value: old_value if state == CHANGED else None.
+
+    """
+    diff_states = diff(source, changed)
+    full_diff = {}
+    for key, state in diff_states.items():
+        if state is NESTED:
+            full_diff[key] = diff_dicts(source[key], changed[key])
+
+        if state is ADDED:
+            full_diff[key] = make_leaf(state, changed[key])
+
+        if state in {REMOVED, UNCHANGED}:
+            full_diff[key] = make_leaf(state, source[key])
+
+        if state is CHANGED:
+            full_diff[key] = make_leaf(state, source[key], changed[key])
+
+    return full_diff
+
+
+def make_leaf(type_: int, leaf_value, old_value=None):
+    """Crete full diff leaf."""  # noqa: DAR
+    return {'type': type_, 'value': leaf_value, 'old_value': old_value}
