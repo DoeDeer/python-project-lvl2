@@ -40,7 +40,7 @@ def complex_res():
       + timeout: 20,
       - timeout: 50,
       + verbose: true
-  },
+    },
   + timeout: 20,
   - timeout: 50,
   + verbose: true
