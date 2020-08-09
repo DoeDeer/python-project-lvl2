@@ -508,14 +508,6 @@ python-versions = "*"
 version = "2.0.0"
 
 [[package]]
-category = "main"
-description = "Sorted Containers -- Sorted List, Sorted Dict, Sorted Set"
-name = "sortedcontainers"
-optional = false
-python-versions = "*"
-version = "2.2.2"
-
-[[package]]
 category = "dev"
 description = "Manage dynamic plugins for Python applications"
 name = "stevedore"
@@ -606,7 +598,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "68e920220940df575cd1188ef4be4f31093023b808df6192ec8f7c4f98c72f52"
+content-hash = "5940a0aeb56540be8489203ea89aed9faeb7068c3d1bf8ebfa2cd907612d7838"
 lock-version = "1.0"
 python-versions = "^3.6"
 
@@ -793,10 +785,6 @@ smmap = [
 snowballstemmer = [
     {file = "snowballstemmer-2.0.0-py2.py3-none-any.whl", hash = "sha256:209f257d7533fdb3cb73bdbd24f436239ca3b2fa67d56f6ff88e86be08cc5ef0"},
     {file = "snowballstemmer-2.0.0.tar.gz", hash = "sha256:df3bac3df4c2c01363f3dd2cfa78cce2840a79b9f1c2d2de9ce8d31683992f52"},
-]
-sortedcontainers = [
-    {file = "sortedcontainers-2.2.2-py2.py3-none-any.whl", hash = "sha256:c633ebde8580f241f274c1f8994a665c0e54a17724fecd0cae2f079e09c36d3f"},
-    {file = "sortedcontainers-2.2.2.tar.gz", hash = "sha256:4e73a757831fc3ca4de2859c422564239a31d8213d09a2a666e375807034d2ba"},
 ]
 stevedore = [
     {file = "stevedore-3.2.0-py3-none-any.whl", hash = "sha256:c8f4f0ebbc394e52ddf49de8bcc3cf8ad2b4425ebac494106bbc5e3661ac7633"},
