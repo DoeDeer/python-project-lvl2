@@ -71,7 +71,7 @@ def diff_dicts(source: dict, changed: dict) -> dict:
             full_diff[key] = make_leaf(state, source[key])
 
         if state is CHANGED:
-            full_diff[key] = make_leaf(state, source[key], changed[key])
+            full_diff[key] = make_leaf(state, changed[key], source[key])
 
     return full_diff
 

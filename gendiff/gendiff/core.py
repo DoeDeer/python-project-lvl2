@@ -3,11 +3,12 @@
 
 """Module with main entities."""
 
+from gendiff.gendiff.diff import diff_dicts
 from gendiff.gendiff.files import read_file
-from gendiff.gendiff.out_format import changes_to_string, prepare_to_show
+from gendiff.gendiff.formatting import JSON_FORMAT, format_output
 
 
-def gendiff(ff_path: str, sf_path: str, form: str = 'json') -> str:
+def gendiff(ff_path: str, sf_path: str, form: str = JSON_FORMAT) -> str:
     """Generate diff between two files in specified format.
 
     Args:
@@ -22,5 +23,5 @@ def gendiff(ff_path: str, sf_path: str, form: str = 'json') -> str:
     source = read_file(ff_path)
     changed = read_file(sf_path)
 
-    changes = prepare_to_show(source, changed)
-    return changes_to_string(changes, form=form)
+    changes = diff_dicts(source, changed)
+    return format_output(changes, format_=form)
