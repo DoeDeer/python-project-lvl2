@@ -4,12 +4,29 @@
 """Module format files diff."""
 
 import json
-from typing import Optional
+from typing import Optional, Tuple
+
+from sortedcontainers import SortedDict
 
 from gendiff.gendiff import diff
 
 JSON_FORMAT = 'json'
 PLAIN_FORMAT = 'plain'
+
+
+def sort_func(key: str) -> Tuple[str, str]:
+    """Define keys sort order.
+
+    Args:
+        key: original dict key.
+
+    Returns:
+        tuple: sort rule.
+
+    """
+    if any(key.startswith(pref) for pref in ('  ', '+ ', '- ')):
+        return key[2:], key[:2]
+    return key, ''
 
 
 def prepare_to_show(source: dict, changed: dict) -> dict:
@@ -25,7 +42,7 @@ def prepare_to_show(source: dict, changed: dict) -> dict:
 
     """
     diffs = diff.diff(source, changed)
-    to_format_dict = {}
+    to_format_dict = SortedDict(sort_func)
 
     for key, state in diffs.items():
         if state in {diff.ADDED, diff.CHANGED}:
@@ -52,4 +69,4 @@ def changes_to_string(changes: dict, form: str = JSON_FORMAT) -> Optional[str]:
 
     """
     if form == JSON_FORMAT:
-        return json.dumps(changes, indent=2, sort_keys=True)
+        return json.dumps(changes, indent=2).replace('"', '')

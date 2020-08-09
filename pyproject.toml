@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "doedeer-gendiff"
-version = "0.0.3"
+version = "0.1.0"
 description = "Show differnces between two files"
 authors = ["Doe Deer <gregorylos97@gmail.com>"]
 packages = [
@@ -11,13 +11,14 @@ packages = [
 python = "^3.6"
 pytest = "^6.0.1"
 PyYaml = "^5.3.1"
+sortedcontainers = "^2.2.2"
 
 [tool.poetry.dev-dependencies]
 wemake-python-styleguide = "^0.14.1"
 
+[tool.poetry.scripts]
+gendiff = "gendiff.scripts.main:main"
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
 
-[tool.poetry.scripts]
-gendiff = "gendiff.scripts.main:main"
