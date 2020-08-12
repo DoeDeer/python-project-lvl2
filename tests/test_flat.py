@@ -30,7 +30,7 @@ def after_yaml_flat():
 
 
 @pytest.fixture
-def flat_res():
+def json_like_flat_res():
     return """{
     host: hexlet.io,
   - proxy: 123.234.53.22,
@@ -48,25 +48,59 @@ Property 'verbose' was added with value: 'true'
 """
 
 
-def test_flat_json(
+@pytest.fixture
+def json_flat_res():
+    return """{
+    "host": {
+        "old_value": null,
+        "type": "UNCHANGED",
+        "value": "hexlet.io"
+    },
+    "proxy": {
+        "old_value": null,
+        "type": "REMOVED",
+        "value": "123.234.53.22"
+    },
+    "timeout": {
+        "old_value": 50,
+        "type": "CHANGED",
+        "value": 20
+    },
+    "verbose": {
+        "old_value": null,
+        "type": "ADDED",
+        "value": true
+    }
+}"""
+
+
+def test_json_like_flat_json(
     before_json_flat: str,
     after_json_flat: str,
-    flat_res: str,
+    json_like_flat_res: str,
 ):
     """Test flat json files comparing."""
-    assert gendiff(before_json_flat, after_json_flat) == flat_res
+    assert gendiff(
+        before_json_flat,
+        after_json_flat,
+        'json-like'
+    ) == json_like_flat_res
 
 
-def test_flat_yaml(
+def test_json_like_flat_yaml(
     before_yaml_flat: str,
     after_yaml_flat: str,
-    flat_res: str,
+    json_like_flat_res: str,
 ):
     """Test flat yaml files comparing."""
-    assert gendiff(before_yaml_flat, after_yaml_flat) == flat_res
+    assert gendiff(
+        before_yaml_flat,
+        after_yaml_flat,
+        'json-like',
+    ) == json_like_flat_res
 
 
-def test_flat_json_plain(
+def test_plain_flat_json(
     before_json_flat: str,
     after_json_flat: str,
     plain_flat_res: str,
@@ -79,7 +113,7 @@ def test_flat_json_plain(
     ) == plain_flat_res
 
 
-def test_flat_yaml_plain(
+def test_plain_flat_yaml(
     before_yaml_flat: str,
     after_yaml_flat: str,
     plain_flat_res: str,
@@ -90,3 +124,21 @@ def test_flat_yaml_plain(
         after_yaml_flat,
         form='plain',
     ) == plain_flat_res
+
+
+def test_json_flat_json(
+    before_json_flat,
+    after_json_flat,
+    json_flat_res: str,
+):
+    """Test flat json files comparing in json format."""
+    assert gendiff(before_json_flat, after_json_flat) == json_flat_res
+
+
+def test_json_flat_yaml(
+    before_yaml_flat: str,
+    after_yaml_flat: str,
+    json_flat_res: str,
+):
+    """Test flat yaml files comparing in json format."""
+    assert gendiff(before_yaml_flat, after_yaml_flat) == json_flat_res

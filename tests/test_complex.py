@@ -20,16 +20,6 @@ def after_json_complex():
 
 
 @pytest.fixture
-def before_json_complex_plain():
-    return 'tests/fixtures/before_complex_plain.json'
-
-
-@pytest.fixture
-def after_json_complex_plain():
-    return 'tests/fixtures/after_complex_plain.json'
-
-
-@pytest.fixture
 def before_yaml_complex():
     return 'tests/fixtures/before_complex.yml'
 
@@ -40,20 +30,23 @@ def after_yaml_complex():
 
 
 @pytest.fixture
-def complex_res():
+def complex_res_json_like():
     return """{
-    host: hexlet.io,
-  - proxy: 123.234.53.22,
-    request: {
-        host: hexlet.io,
-      - proxy: 123.234.53.22,
-      + timeout: 20,
-      - timeout: 50,
-      + verbose: true
+    common: {
+        setting1: Value 1,
+      - setting2: 200,
+        setting3: true,
+      + setting4: blah blah,
+      + setting5: {key5: value5},
+      - setting6: {key: value}
     },
-  + timeout: 20,
-  - timeout: 50,
-  + verbose: true
+    group1: {
+      + baz: bars,
+      - baz: bas,
+        foo: bar
+    },
+  - group2: {abc: 12345},
+  + group3: {fee: 100500}
 }"""
 
 
@@ -69,32 +62,139 @@ Property 'group3' was added with value: 'complex value'
 """
 
 
-def test_complex_json(
+@pytest.fixture
+def complex_res_json():
+    return """{
+    "common": {
+        "setting1": {
+            "old_value": null,
+            "type": "UNCHANGED",
+            "value": "Value 1"
+        },
+        "setting2": {
+            "old_value": null,
+            "type": "REMOVED",
+            "value": "200"
+        },
+        "setting3": {
+            "old_value": null,
+            "type": "UNCHANGED",
+            "value": true
+        },
+        "setting4": {
+            "old_value": null,
+            "type": "ADDED",
+            "value": "blah blah"
+        },
+        "setting5": {
+            "old_value": null,
+            "type": "ADDED",
+            "value": {
+                "key5": "value5"
+            }
+        },
+        "setting6": {
+            "old_value": null,
+            "type": "REMOVED",
+            "value": {
+                "key": "value"
+            }
+        }
+    },
+    "group1": {
+        "baz": {
+            "old_value": "bas",
+            "type": "CHANGED",
+            "value": "bars"
+        },
+        "foo": {
+            "old_value": null,
+            "type": "UNCHANGED",
+            "value": "bar"
+        }
+    },
+    "group2": {
+        "old_value": null,
+        "type": "REMOVED",
+        "value": {
+            "abc": "12345"
+        }
+    },
+    "group3": {
+        "old_value": null,
+        "type": "ADDED",
+        "value": {
+            "fee": "100500"
+        }
+    }
+}"""
+
+
+def test_json_like_complex_json(
     before_json_complex: str,
     after_json_complex: str,
-    complex_res: str,
+    complex_res_json_like: str,
 ):
-    """Test complex json files comparing."""
-    assert gendiff(before_json_complex, after_json_complex) == complex_res
+    """Test complex json files comparing in json-like format."""
+    assert gendiff(
+        before_json_complex,
+        after_json_complex,
+        'json-like',
+    ) == complex_res_json_like
 
 
-def test_complex_yaml(
+def test_json_like__complex_yaml(
     before_yaml_complex: str,
     after_yaml_complex: str,
-    complex_res: str,
+    complex_res_json_like: str,
 ):
-    """Test complex json files comparing."""
-    assert gendiff(before_yaml_complex, after_yaml_complex) == complex_res
+    """Test complex yaml files comparing in json-like format."""
+    assert gendiff(
+        before_yaml_complex,
+        after_yaml_complex,
+        'json-like',
+    ) == complex_res_json_like
 
 
-def test_complex_json_plain(
-    before_json_complex_plain: str,
-    after_json_complex_plain: str,
+def test_plain_complex_json(
+    before_json_complex: str,
+    after_json_complex: str,
     complex_res_plain: str,
 ):
-    """Test complex json files comparing."""
+    """Test complex json files comparing in plain format."""
     assert gendiff(
-        before_json_complex_plain,
-        after_json_complex_plain,
+        before_json_complex,
+        after_json_complex,
         form='plain',
     ) == complex_res_plain
+
+
+def test_plain_complex_yaml(
+    before_json_complex: str,
+    after_json_complex: str,
+    complex_res_plain: str,
+):
+    """Test complex json files comparing in plain format."""
+    assert gendiff(
+        before_json_complex,
+        after_json_complex,
+        form='plain',
+    ) == complex_res_plain
+
+
+def test_json_complex_json(
+    before_json_complex: str,
+    after_json_complex: str,
+    complex_res_json: str,
+):
+    """Test complex json files comparing in json format."""
+    assert gendiff(before_json_complex, after_json_complex) == complex_res_json
+
+
+def test_json_complex_yaml(
+    before_json_complex: str,
+    after_json_complex: str,
+    complex_res_json: str,
+):
+    """Test complex json files comparing in json format."""
+    assert gendiff(before_json_complex, after_json_complex) == complex_res_json
