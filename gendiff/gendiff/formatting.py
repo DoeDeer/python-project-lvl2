@@ -8,6 +8,7 @@ import json
 from gendiff.gendiff import diff
 
 JSON_FORMAT = 'json'
+JSON_LIKE_FORMAT = 'json-like'
 PLAIN_FORMAT = 'plain'
 
 JSON_DIFF_MAPPER = {  # noqa: WPS407
@@ -22,7 +23,7 @@ def py_to_json(py_obj):
     return json.dumps(py_obj).replace('"', '')
 
 
-def format_json(full_diff: dict, level: int = 1) -> str:  # noqa: WPS210
+def format_json_like(full_diff: dict, level: int = 1) -> str:  # noqa: WPS210
     """Format full diff between dicts to json string.
 
     Args:
@@ -43,7 +44,7 @@ def format_json(full_diff: dict, level: int = 1) -> str:  # noqa: WPS210
                 '{indent}{key}: {changes},\n'.format(
                     indent=indent,
                     key=key,
-                    changes=format_json(state_leaf, level=level + 1),
+                    changes=format_json_like(state_leaf, level=level + 1),
                 ),
             )
 
@@ -135,9 +136,15 @@ def format_plain(full_diff, high_module: str = ''):
     return ''.join(changes_strings)
 
 
+def format_json(full_diff: dict) -> str:
+    return json.dumps(full_diff, indent=' ' * 4, sort_keys=True)
+
+
 def format_output(full_diff, format_: str = JSON_FORMAT):
     """Format full diff dict to string representation in given format."""  # noqa: DAR
     if format_ == JSON_FORMAT:
         return format_json(full_diff)
     if format_ == PLAIN_FORMAT:
         return format_plain(full_diff)
+    if format_ == JSON_LIKE_FORMAT:
+        return format_json_like(full_diff)

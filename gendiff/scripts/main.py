@@ -21,7 +21,7 @@ def main():
         '--format',
         type=str,
         action='store',
-        choices=['json', 'plain'],
+        choices=['json', 'json-like', 'plain'],
         default='json',
         metavar='FORMAT',
         help='set format of output. Available choices: plain, json',
