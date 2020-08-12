@@ -137,6 +137,7 @@ def format_plain(full_diff, high_module: str = ''):
 
 
 def format_json(full_diff: dict) -> str:
+    """Return json string of diffs."""  # noqa: DAR
     return json.dumps(full_diff, indent=' ' * 4, sort_keys=True)
 
 
