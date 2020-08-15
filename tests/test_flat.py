@@ -53,22 +53,22 @@ def json_flat_res():
     return """{
     "host": {
         "old_value": null,
-        "type": "UNCHANGED",
+        "type_": "UNCHANGED",
         "value": "hexlet.io"
     },
     "proxy": {
         "old_value": null,
-        "type": "REMOVED",
+        "type_": "REMOVED",
         "value": "123.234.53.22"
     },
     "timeout": {
         "old_value": 50,
-        "type": "CHANGED",
+        "type_": "CHANGED",
         "value": 20
     },
     "verbose": {
         "old_value": null,
-        "type": "ADDED",
+        "type_": "ADDED",
         "value": true
     }
 }"""

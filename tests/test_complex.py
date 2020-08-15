@@ -68,34 +68,34 @@ def complex_res_json():
     "common": {
         "setting1": {
             "old_value": null,
-            "type": "UNCHANGED",
+            "type_": "UNCHANGED",
             "value": "Value 1"
         },
         "setting2": {
             "old_value": null,
-            "type": "REMOVED",
+            "type_": "REMOVED",
             "value": "200"
         },
         "setting3": {
             "old_value": null,
-            "type": "UNCHANGED",
+            "type_": "UNCHANGED",
             "value": true
         },
         "setting4": {
             "old_value": null,
-            "type": "ADDED",
+            "type_": "ADDED",
             "value": "blah blah"
         },
         "setting5": {
             "old_value": null,
-            "type": "ADDED",
+            "type_": "ADDED",
             "value": {
                 "key5": "value5"
             }
         },
         "setting6": {
             "old_value": null,
-            "type": "REMOVED",
+            "type_": "REMOVED",
             "value": {
                 "key": "value"
             }
@@ -104,25 +104,25 @@ def complex_res_json():
     "group1": {
         "baz": {
             "old_value": "bas",
-            "type": "CHANGED",
+            "type_": "CHANGED",
             "value": "bars"
         },
         "foo": {
             "old_value": null,
-            "type": "UNCHANGED",
+            "type_": "UNCHANGED",
             "value": "bar"
         }
     },
     "group2": {
         "old_value": null,
-        "type": "REMOVED",
+        "type_": "REMOVED",
         "value": {
             "abc": "12345"
         }
     },
     "group3": {
         "old_value": null,
-        "type": "ADDED",
+        "type_": "ADDED",
         "value": {
             "fee": "100500"
         }
