@@ -11,7 +11,11 @@ lint:
 test:
 	poetry run pytest -q
 
-check: lint test
+run-coverage:
+	coverage run -m pytest -q
+	coverage report
+
+check: lint run-coverage
 
 publish:
 	poetry publish --build \
