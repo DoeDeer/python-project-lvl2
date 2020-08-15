@@ -28,4 +28,17 @@ string with info dict about all keys. Plain is just test describing keys change.
 from gendiff import gendiff
 
 diff = gendiff(path_to_first_file, path_to_second_file, mode)
-```
+```  
+
+## Examples
+### Install and simple usage  
+[![asciicast](https://asciinema.org/a/48SUmUjvZvNQR4esyBATHHavQ.svg)](https://asciinema.org/a/48SUmUjvZvNQR4esyBATHHavQ)  
+### YAML
+[![asciicast](https://asciinema.org/a/NxKxI5L3LrdN6S3OqvjzHQifx.svg)](https://asciinema.org/a/NxKxI5L3LrdN6S3OqvjzHQifx)  
+#### Complex values  
+[![asciicast](https://asciinema.org/a/2hovzbRQxTySLaUHfhlkOzda2.svg)](https://asciinema.org/a/2hovzbRQxTySLaUHfhlkOzda2)  
+#### Plain output  
+[![asciicast](https://asciinema.org/a/HJeTiXZeEPXmrHnpoMAPiZn07.svg)](https://asciinema.org/a/HJeTiXZeEPXmrHnpoMAPiZn07)  
+#### JSON output
+[![asciicast](https://asciinema.org/a/52NhJY8qKOvso6qb48jYHIIhw.svg)](https://asciinema.org/a/52NhJY8qKOvso6qb48jYHIIhw)  
+
