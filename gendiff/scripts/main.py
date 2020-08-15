@@ -22,7 +22,7 @@ def main():
         type=str,
         action='store',
         choices=['json', 'json-like', 'plain'],
-        default='json',
+        default='json-like',
         metavar='FORMAT',
         help='set format of output. Available choices: plain, json, json-like',
     )
