@@ -24,7 +24,7 @@ def main():
         choices=['json', 'json-like', 'plain'],
         default='json',
         metavar='FORMAT',
-        help='set format of output. Available choices: plain, json',
+        help='set format of output. Available choices: plain, json, json-like',
     )
 
     args = parser.parse_args()

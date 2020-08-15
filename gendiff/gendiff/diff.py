@@ -12,7 +12,7 @@ NESTED = 'NESTED'
 KEY_STATES = (UNCHANGED, CHANGED, ADDED, REMOVED, NESTED)
 
 
-def diff(source: dict, changed: dict) -> dict:
+def diff(source: dict, changed: dict) -> dict:  # noqa: WPS210
     """Return dict with diff keys info.
 
     Args:
@@ -78,4 +78,4 @@ def diff_dicts(source: dict, changed: dict) -> dict:
 
 def make_leaf(type_: int, leaf_value, old_value=None):
     """Crete full diff leaf."""  # noqa: DAR
-    return {'type': type_, 'value': leaf_value, 'old_value': old_value}
+    return {'type_': type_, 'value': leaf_value, 'old_value': old_value}
