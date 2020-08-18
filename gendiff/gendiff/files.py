@@ -12,6 +12,10 @@ import yaml
 JSON_MIME = 'json'
 YAML_MIME = 'yaml'
 MIMES = (JSON_MIME, YAML_MIME)
+MIMES_READERS = {  # noqa: WPS407
+    JSON_MIME: json.load,
+    YAML_MIME: yaml.safe_load,
+}
 
 
 def guess_mime(file_name: str) -> Optional[str]:
@@ -28,7 +32,7 @@ def read_file(file_path: str) -> Optional[dict]:
     if mime not in MIMES:
         return None
 
-    reader = json.load if mime == JSON_MIME else yaml.safe_load
+    reader = MIMES_READERS[mime]
     abs_path = os.path.abspath(file_path)
     with open(abs_path, 'rb') as source_file:
         read_dict = reader(source_file)
