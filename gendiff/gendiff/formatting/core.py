@@ -13,7 +13,6 @@ logger = logging.getLogger(__name__)
 JSON_FORMAT = 'json'
 JSON_LIKE_FORMAT = 'json-like'
 PLAIN_FORMAT = 'plain'
-DUMMY_FORMAT = 'dummy'
 
 
 def py_to_json(py_obj):
@@ -38,4 +37,4 @@ def format_output(full_diff, format_: str = JSON_FORMAT):
         JSON_FORMAT: format_json,
         JSON_LIKE_FORMAT: json_like.format_json_like,
         PLAIN_FORMAT: plain.format_plain,
-    }.get(format_, DUMMY_FORMAT)(full_diff)
+    }.get(format_, format_dummy)(full_diff)
