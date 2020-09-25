@@ -18,7 +18,17 @@ ALLOWED_FORMATS = {JSON_FORMAT, JSON_LIKE_FORMAT, PLAIN_FORMAT}  # noqa: WPS407
 
 def py_to_json(py_obj):
     """Dump python object to json."""  # noqa: DAR
-    return json.dumps(py_obj).replace('"', '')
+    if isinstance(py_obj, dict):
+        lines = ['{']
+        for key, value in py_obj.items():  # noqa: WPS110: it's ok, broad py obj
+            lines.append('{0}: {1}'.format(key, value))
+            lines.append('}')
+        return ''.join(lines)
+
+    dumped = json.dumps(py_obj)
+    if dumped.startswith('"') and dumped.endswith('"'):
+        return dumped[1:-1]
+    return dumped
 
 
 def format_json(full_diff: dict) -> str:

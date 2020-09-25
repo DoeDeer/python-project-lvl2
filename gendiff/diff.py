@@ -12,40 +12,6 @@ NESTED = 'NESTED'
 KEY_STATES = (UNCHANGED, CHANGED, ADDED, REMOVED, NESTED)
 
 
-def compare_dicts(source: dict, changed: dict) -> dict:  # noqa: WPS210
-    """Return dict with diff keys info.
-
-    Args:
-        source (dict): source dict with original values.
-        changed (dict): changed dict with updated values.
-
-    Returns:
-        dict: dict with keys from both source and changed, where values are
-        instances of KEY_STATES.
-
-    """
-    both_keys = source.keys() | changed.keys()
-    added_keys = changed.keys() - source.keys()
-    removed_keys = source.keys() - changed.keys()
-    keys_states = {}
-
-    for added in added_keys:
-        keys_states[added] = ADDED
-
-    for removed in removed_keys:
-        keys_states[removed] = REMOVED
-
-    for same in both_keys - (added_keys | removed_keys):
-        if isinstance(source[same], dict) and isinstance(changed[same], dict):
-            keys_states[same] = NESTED
-        elif source[same] == changed[same]:
-            keys_states[same] = UNCHANGED
-        else:
-            keys_states[same] = CHANGED
-
-    return keys_states
-
-
 def build_diff_tree(source: dict, changed: dict) -> dict:
     """Return dict with full info representation about changes.
 
@@ -58,24 +24,30 @@ def build_diff_tree(source: dict, changed: dict) -> dict:
         old_value: old_value if state == CHANGED else None.
 
     """
-    diff_states = compare_dicts(source, changed)
+    both_keys = source.keys() | changed.keys()
+    added_keys = changed.keys() - source.keys()
+    removed_keys = source.keys() - changed.keys()
     full_diff = {}
-    for key, state in diff_states.items():
-        if state is NESTED:
-            full_diff[key] = build_diff_tree(source[key], changed[key])
 
-        if state is ADDED:
-            full_diff[key] = make_leaf(state, changed[key])
+    for added in added_keys:
+        full_diff[added] = make_leaf(ADDED, changed[added])
 
-        if state in {REMOVED, UNCHANGED}:
-            full_diff[key] = make_leaf(state, source[key])
+    for removed in removed_keys:
+        full_diff[removed] = make_leaf(REMOVED, source[removed])
 
-        if state is CHANGED:
-            full_diff[key] = make_leaf(state, changed[key], source[key])
+    for same in both_keys - (added_keys | removed_keys):
+        source_item = source[same]
+        changed_item = changed[same]
+        if isinstance(source_item, dict) and isinstance(changed_item, dict):
+            full_diff[same] = build_diff_tree(source_item, changed_item)
+        elif source_item == changed[same]:
+            full_diff[same] = make_leaf(UNCHANGED, source_item)
+        else:
+            full_diff[same] = make_leaf(CHANGED, changed_item, source_item)
 
     return full_diff
 
 
-def make_leaf(type_: int, leaf_value, old_value=None):
+def make_leaf(type_: str, leaf_value, old_value=None):
     """Crete full diff leaf."""  # noqa: DAR
     return {'type_': type_, 'value': leaf_value, 'old_value': old_value}
