@@ -6,13 +6,14 @@
 import json
 import logging
 
-from gendiff.gendiff.formatting import json_like, plain
+from gendiff.formatting import json_like, plain
 
 logger = logging.getLogger(__name__)
 
 JSON_FORMAT = 'json'
 JSON_LIKE_FORMAT = 'json-like'
 PLAIN_FORMAT = 'plain'
+ALLOWED_FORMATS = {JSON_FORMAT, JSON_LIKE_FORMAT, PLAIN_FORMAT}  # noqa: WPS407
 
 
 def py_to_json(py_obj):
@@ -25,16 +26,13 @@ def format_json(full_diff: dict) -> str:
     return json.dumps(full_diff, indent=' ' * 4, sort_keys=True)
 
 
-def format_dummy(full_diff: dict) -> str:
-    """Format unknown type."""  # noqa: DAR
-    logger.error('Wrong formatting type. Returning json output.')
-    return format_json(full_diff)
-
-
 def format_output(full_diff, format_: str = JSON_FORMAT):
     """Format full diff dict to string representation in given format."""  # noqa: DAR
+    if format_ not in ALLOWED_FORMATS:
+        raise ValueError('Wrong format')
+
     return {
         JSON_FORMAT: format_json,
         JSON_LIKE_FORMAT: json_like.format_json_like,
         PLAIN_FORMAT: plain.format_plain,
-    }.get(format_, format_dummy)(full_diff)
+    }.get(format_)(full_diff)

@@ -9,15 +9,15 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-pytest = "^6.0.1"
 PyYaml = "^5.3.1"
-coverage = "^5.2.1"
 
 [tool.poetry.dev-dependencies]
+pytest = "^6.0.1"
+coverage = "^5.2.1"
 wemake-python-styleguide = "^0.14.1"
 
 [tool.poetry.scripts]
-gendiff = "gendiff.scripts.main:main"
+gendiff = "gendiff.scripts.generate_diff:main"
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"

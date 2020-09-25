@@ -12,7 +12,7 @@ NESTED = 'NESTED'
 KEY_STATES = (UNCHANGED, CHANGED, ADDED, REMOVED, NESTED)
 
 
-def diff(source: dict, changed: dict) -> dict:  # noqa: WPS210
+def compare_dicts(source: dict, changed: dict) -> dict:  # noqa: WPS210
     """Return dict with diff keys info.
 
     Args:
@@ -46,7 +46,7 @@ def diff(source: dict, changed: dict) -> dict:  # noqa: WPS210
     return keys_states
 
 
-def diff_dicts(source: dict, changed: dict) -> dict:
+def build_diff_tree(source: dict, changed: dict) -> dict:
     """Return dict with full info representation about changes.
 
     Args:
@@ -58,11 +58,11 @@ def diff_dicts(source: dict, changed: dict) -> dict:
         old_value: old_value if state == CHANGED else None.
 
     """
-    diff_states = diff(source, changed)
+    diff_states = compare_dicts(source, changed)
     full_diff = {}
     for key, state in diff_states.items():
         if state is NESTED:
-            full_diff[key] = diff_dicts(source[key], changed[key])
+            full_diff[key] = build_diff_tree(source[key], changed[key])
 
         if state is ADDED:
             full_diff[key] = make_leaf(state, changed[key])

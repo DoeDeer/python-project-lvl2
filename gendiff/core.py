@@ -3,9 +3,9 @@
 
 """Module with main entities."""
 
-from gendiff.gendiff.diff import diff_dicts
-from gendiff.gendiff.files import read_file
-from gendiff.gendiff.formatting import JSON_FORMAT, format_output
+from gendiff.diff import build_diff_tree
+from gendiff.files import read_file
+from gendiff.formatting import JSON_FORMAT, format_output
 
 
 def gendiff(ff_path: str, sf_path: str, form: str = JSON_FORMAT) -> str:
@@ -23,5 +23,5 @@ def gendiff(ff_path: str, sf_path: str, form: str = JSON_FORMAT) -> str:
     source = read_file(ff_path)
     changed = read_file(sf_path)
 
-    changes = diff_dicts(source, changed)
+    changes = build_diff_tree(source, changed)
     return format_output(changes, format_=form)

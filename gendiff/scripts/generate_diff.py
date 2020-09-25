@@ -6,7 +6,8 @@
 
 import argparse
 
-from gendiff.gendiff.core import gendiff
+from gendiff.core import gendiff
+from gendiff.formatting import JSON_FORMAT, JSON_LIKE_FORMAT, PLAIN_FORMAT
 
 
 def main():
@@ -21,8 +22,8 @@ def main():
         '--format',
         type=str,
         action='store',
-        choices=['json', 'json-like', 'plain'],
-        default='json-like',
+        choices=[JSON_FORMAT, JSON_LIKE_FORMAT, PLAIN_FORMAT],
+        default=JSON_LIKE_FORMAT,
         metavar='FORMAT',
         help='set format of output. Available choices: plain, json, json-like',
     )

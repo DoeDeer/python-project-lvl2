@@ -4,9 +4,12 @@
 """Flat json diff tests."""
 
 
+import json
+
 import pytest
 
-from gendiff.gendiff.core import gendiff
+from gendiff.core import gendiff
+from gendiff.formatting import JSON_LIKE_FORMAT, PLAIN_FORMAT
 
 
 @pytest.fixture
@@ -31,47 +34,20 @@ def after_yaml_flat():
 
 @pytest.fixture
 def json_like_flat_res():
-    return """{
-    host: hexlet.io,
-  - proxy: 123.234.53.22,
-  + timeout: 20,
-  - timeout: 50,
-  + verbose: true
-}"""
+    with open('tests/fixtures/flat_json_like_result.txt') as res:
+        return res.read()
 
 
 @pytest.fixture
 def plain_flat_res():
-    return """Property 'proxy' was removed
-Property 'timeout' was changed. From '50' to '20'
-Property 'verbose' was added with value: 'true'
-"""
+    with open('tests/fixtures/flat_plain_result.txt') as res:
+        return res.read()
 
 
 @pytest.fixture
 def json_flat_res():
-    return """{
-    "host": {
-        "old_value": null,
-        "type_": "UNCHANGED",
-        "value": "hexlet.io"
-    },
-    "proxy": {
-        "old_value": null,
-        "type_": "REMOVED",
-        "value": "123.234.53.22"
-    },
-    "timeout": {
-        "old_value": 50,
-        "type_": "CHANGED",
-        "value": 20
-    },
-    "verbose": {
-        "old_value": null,
-        "type_": "ADDED",
-        "value": true
-    }
-}"""
+    with open('tests/fixtures/flat_json_result.json') as res:
+        return json.load(res)
 
 
 def test_json_like_flat_json(
@@ -83,7 +59,7 @@ def test_json_like_flat_json(
     assert gendiff(
         before_json_flat,
         after_json_flat,
-        'json-like'
+        form=JSON_LIKE_FORMAT,
     ) == json_like_flat_res
 
 
@@ -96,7 +72,7 @@ def test_json_like_flat_yaml(
     assert gendiff(
         before_yaml_flat,
         after_yaml_flat,
-        'json-like',
+        form=JSON_LIKE_FORMAT,
     ) == json_like_flat_res
 
 
@@ -109,7 +85,7 @@ def test_plain_flat_json(
     assert gendiff(
         before_json_flat,
         after_json_flat,
-        form='plain',
+        form=PLAIN_FORMAT,
     ) == plain_flat_res
 
 
@@ -122,7 +98,7 @@ def test_plain_flat_yaml(
     assert gendiff(
         before_yaml_flat,
         after_yaml_flat,
-        form='plain',
+        form=PLAIN_FORMAT,
     ) == plain_flat_res
 
 
@@ -132,7 +108,9 @@ def test_json_flat_json(
     json_flat_res: str,
 ):
     """Test flat json files comparing in json format."""
-    assert gendiff(before_json_flat, after_json_flat) == json_flat_res
+    assert json.loads(
+        gendiff(before_json_flat, after_json_flat),
+    ) == json_flat_res
 
 
 def test_json_flat_yaml(
@@ -141,4 +119,6 @@ def test_json_flat_yaml(
     json_flat_res: str,
 ):
     """Test flat yaml files comparing in json format."""
-    assert gendiff(before_yaml_flat, after_yaml_flat) == json_flat_res
+    assert json.loads(
+        gendiff(before_yaml_flat, after_yaml_flat),
+    ) == json_flat_res

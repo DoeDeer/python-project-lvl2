@@ -23,4 +23,4 @@ publish:
 	 --password $(shell echo ${PIP_PASSWORD}) \
 	  -r test-pypi
 
-.PHONY: install lint publish
+.PHONY: install lint test run-coverage check publish

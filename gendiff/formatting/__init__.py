@@ -3,7 +3,7 @@
 
 """Diffs output formatting package."""
 
-from gendiff.gendiff.formatting.core import (
+from gendiff.formatting.core import (
     JSON_FORMAT,
     JSON_LIKE_FORMAT,
     PLAIN_FORMAT,

@@ -5,8 +5,8 @@
 
 from copy import deepcopy
 
-from gendiff.gendiff import diff
-from gendiff.gendiff.formatting import core
+from gendiff import diff
+from gendiff.formatting import core
 
 
 def format_plain(full_diff, high_module: str = '') -> str:

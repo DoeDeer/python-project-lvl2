@@ -3,8 +3,8 @@
 
 """Pretty json - like dict formatting module."""
 
-from gendiff.gendiff import diff
-from gendiff.gendiff.formatting import core
+from gendiff import diff
+from gendiff.formatting import core
 
 JSON_DIFF_MAPPER = {  # noqa: WPS407
     diff.ADDED: '+ ',
